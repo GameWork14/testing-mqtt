@@ -1,0 +1,100 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="https:kit.fontawesome.com/ae360af17e.js" crossorigin="anonymus"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside id="sidebar">
+            <!--Contenido de la sidebar-->
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <a href="#">Tecnologico de Los Mochis</a>
+                </div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">
+                        Administración de elementos
+                    </li>
+                    <li class="sidebar-item">
+                        <a href={% url "home" %} class="sidebar-link">
+                            <i class="fa-solid fa-list"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse" aria-expanded="false">
+                            <i class="fa-solid fa-file-lines pe-2"></i>
+                            Base de datos
+                        </a>
+                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sideabr-item">
+                                <a href={% url "ventas" %} class="sidebar-link">Ventas</a>
+                            </li>
+                            <li class="sideabr-item">
+                                <a href="#" class="sidebar-link">Recetas</a>
+                            </li>
+                            <li class="sideabr-item">
+                                <a href="#" class="sidebar-link">Alarmas</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse" aria-expanded="false">
+                            <i class="fa-regular fa-user pe-2"></i>
+                            Cuenta
+                        </a>
+                        <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sideabr-item">
+                                <a href="#" class="sidebar-link">Iniciar sesión</a>
+                            </li>
+                            <li class="sideabr-item">
+                                <a href="{% url "exit" %}" class="sidebar-link">Cerrar sesión</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div class="main">
+            <nav class="navbar">
+                <button class="btn" id="sidebar-toggle" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <main>
+                <!--Contenido de la pagina -->
+                {% block content %}
+                    
+                {% endblock %}
+            </main>
+            <a href="#" class="theme-toggle">
+                <i class="fa-regular fa-moon"></i>
+                <i class="fa-regular fa-sun"></i>
+            </a>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-6 text-start">
+                            <p class="mb-0">
+                                <a href={% url "home" %}>
+                                    <Strong>Tecnologico de Los Mochis</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src={% static "scripts/scripts.js" %}></script>
+</body>
+</html>

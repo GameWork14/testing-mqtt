@@ -1,0 +1,31 @@
+{% extends 'core/partials/base.html' %}
+
+
+{% block content %}
+    <h3>Ventas</h3>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Cemento</th> 
+                <th>Arena</th>
+                <th>grava</th>
+                <th>Aditivo</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos %}
+                <tr>
+                    <td>{{ dato.cliente }}</td>
+                    <td>{{ dato.cemento }}</td>
+                    <td>{{ dato.arena }}</td>
+                    <td>{{ dato.grava }}</td>
+                    <td>{{ dato.aditivo }}</td>
+                    <td>{{ dato.fecha }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+    

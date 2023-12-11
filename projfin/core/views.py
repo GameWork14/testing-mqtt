@@ -3,28 +3,65 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from core.models import ventasmqtt
 import paho.mqtt.client as mqtt
+import json
+from core.models import ventasmqtt
+from core.models import Alarmasmqtt
+import random
+import json
 
-def enviar_mensaje_mqtt(data):
-    # Configura la conexión MQTT
-    client = mqtt.Client()
-    client.connect("test.mosquitto.org", 1883, 60)
 
-    # Conéctate al broker MQTT
-    client.loop_start()  # Inicia el bucle MQTT en un hilo
+def on_connect(client, userdata, flags, rc):
+        print("Conectado: " + str(rc))
 
-    # Publica el mensaje en el tema deseado
-    client.publish("ASLW/ModoOperacion", data)
+        client.subscribe("ASLW/Ventas")
+        client.subscribe("ASLW/Alarmas/Presencia")
+        client.subscribe("ASLW/Alarmas/Paro")
+        client.subscribe("ASLW/Alarmas/ViolacionDeActuadores")
 
-    # Espera un poco para asegurarse de que el mensaje se envíe
-    client.loop_stop()
-    client.disconnect()
+def on_message(client, userdata, msg):
+
+    print(msg.topic+" "+str(msg.payload))
+    payload=json.loads(msg.payload)
+
+    if msg.topic == "ASLW/Alarmas/Presencia":
+        Alarmasmqtt.objects.create(
+            Presencia=payload['presencia'],
+        )
+
+    if msg.topic == "ASLW/Alarmas/Paro":
+        Alarmasmqtt.objects.create(
+            ParoDeEmergencia=payload['paro'],
+        )
+
+    if msg.topic == "ASLW/Alarmas/ViolacionDeActuadores":
+        Alarmasmqtt.objects.create(
+            ViolacionActuador =payload['ViolacionActuador'],
+        )
+            
+    if msg.topic == "ASLW/Ventas":
+        ventasmqtt.objects.create(
+            cliente=payload['cliente'],
+            cemento=payload['cemento'],
+            arena=payload['arena'],
+            grava=payload['grava'],
+            aditivo=payload['aditivo'],
+            placa=payload['placa'],
+        )
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect("test.mosquitto.org", 1883, 60)
+
+client.loop_start()
 
 @login_required
 def home(request):
-    if request.method == 'POST':
-        data = request.POST.get('data')
-        enviar_mensaje_mqtt(data)
-        print(data)
+    data = random.randint(1, 100)
+    print(data)
+    client.publish("ASLW/Actuadores", str(data))
+    client.publish("ASLW/Actuadores", json.dumps({"Operacion" : "Automatico"}))
 
     return render(request, 'core/home.html',)
 

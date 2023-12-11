@@ -3,6 +3,8 @@
 
 {% block content %}
     <h3>Dashboard</h3>
-     <button id="mqttButton">Automatico</button>
+    <form action="{% url 'home' %}" method="get">
+        <button type="submit">Send GET request</button>
+    </form>
 {% endblock %}
     

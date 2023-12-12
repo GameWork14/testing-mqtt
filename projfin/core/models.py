@@ -17,7 +17,5 @@ class Alarmasmqtt(models.Model):
     ViolacionActuador = models.CharField(max_length=255)
     ParoDeEmergencia = models.CharField(max_length=255)
     Presencia = models.CharField(max_length=255)
+    ModoOperacion = models.CharField(max_length=255, default='valor_predeterminado')
     fecha = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.cliente

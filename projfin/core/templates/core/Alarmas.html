@@ -1,0 +1,28 @@
+{% extends 'core/partials/base.html' %}
+
+
+{% block content %}
+    <h3>Alarmas</h3>
+    <table id="suputamadre" class="styled-table">
+        <thead>
+            <tr>
+                <th>Manipulacion de actuador</th>
+                <th>Paro de emergencia</th> 
+                <th>Presencia de personal durante operacion</th>
+                <th>Modo de operacion</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alarma in alarmas %}
+                <tr>
+                    <td>{{ alarma.ViolacionActuador }}</td>
+                    <td>{{ alarma.ParoDeEmergencia }}</td>
+                    <td>{{ alarma.Presencia }}</td>
+                    <td>{{ alarma.ModoOperacion }}</td>
+                    <td>{{ alarma.fecha }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

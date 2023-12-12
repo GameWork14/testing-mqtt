@@ -3,8 +3,15 @@
 
 {% block content %}
     <h3>Dashboard</h3>
-    <form action="{% url 'home' %}" method="get">
-        <button type="submit">Send GET request</button>
+    <form action="{% url 'boton_automatico' %}" method="get">
+        <button type="submit">Modo Automatico</button>
     </form>
+    <form action="{% url 'boton_manual' %}" method="get">
+        <button type="submit">Modo Manual</button>
+    </form>
+
+    <div hx-get="{% url 'sensor1' %}" hx-trigger="every 2s"></div>
+
+
 {% endblock %}
     

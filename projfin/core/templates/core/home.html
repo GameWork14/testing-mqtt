@@ -1,5 +1,6 @@
-{% extends 'core/partials/base.html' %}
 
+{% extends 'core/partials/base.html' %}
+{% load static %}
 
 {% block content %}
     <h3>Dashboard</h3>
@@ -10,7 +11,23 @@
         <button type="submit">Modo Manual</button>
     </form>
 
-    <div hx-get="{% url 'sensor1' %}" hx-trigger="every 2s"></div>
+    
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{% static "img/bascula.png" %}" class="img-fluid rounded-start">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Bascula</h5>
+              <p class="card-text">
+                <div hx-get="{% url 'sensor1' %}" hx-trigger="every 2s"></div>
+              </p>
+              <p class="card-text"><small class="text-muted">Actualizaicon cada 2 segundos</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 {% endblock %}

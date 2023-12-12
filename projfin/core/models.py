@@ -14,8 +14,10 @@ class ventasmqtt(models.Model):
         return self.cliente
     
 class Alarmasmqtt(models.Model):
-    ViolacionActuador = models.CharField(max_length=255)
-    ParoDeEmergencia = models.CharField(max_length=255)
-    Presencia = models.CharField(max_length=255)
-    ModoOperacion = models.CharField(max_length=255, default='valor_predeterminado')
+    Alarma = models.CharField(max_length=255)
     fecha = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.Alarma
+
+class sensor1mqtt(models.Model):
+    sensor = models.CharField(max_length=255)

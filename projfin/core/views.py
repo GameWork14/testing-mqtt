@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from core.models import ventasmqtt
 import paho.mqtt.client as mqtt
 import json
 from core.models import ventasmqtt
 from core.models import Alarmasmqtt
-import random
+from core.models import sensor1mqtt
 import json
 
 
@@ -14,34 +13,22 @@ def on_connect(client, userdata, flags, rc):
         print("Conectado: " + str(rc))
 
         client.subscribe("ASLW/Ventas")
-        client.subscribe("ASLW/Alarmas/Presencia")
-        client.subscribe("ASLW/Alarmas/Paro")
-        client.subscribe("ASLW/Alarmas/ViolacionDeActuadores")
-        client.subscribe("ASLW/Alarmas/ModoOperacion")
+        client.subscribe("ASLW/Alarmas")
+        client.subscribe("ASLW/sensor1")
 
 def on_message(client, userdata, msg):
 
     print(msg.topic+" "+str(msg.payload))
     payload=json.loads(msg.payload)
 
-    if msg.topic == "ASLW/Alarmas/ModoOperacion":
-        Alarmasmqtt.objects.create(
-            ModoOperacion=payload['ModoOperacion'],
+    if msg.topic == "ASLW/sensor1":
+        sensor1mqtt.objects.create(
+            sensor=payload['sensor'],
         )
 
-    if msg.topic == "ASLW/Alarmas/Presencia":
+    if msg.topic == "ASLW/Alarmas":
         Alarmasmqtt.objects.create(
-            Presencia=payload['presencia'],
-        )
-
-    if msg.topic == "ASLW/Alarmas/Paro":
-        Alarmasmqtt.objects.create(
-            ParoDeEmergencia=payload['paro'],
-        )
-
-    if msg.topic == "ASLW/Alarmas/ViolacionDeActuadores":
-        Alarmasmqtt.objects.create(
-            ViolacionActuador =payload['ViolacionActuador'],
+            Alarmas=payload['alarmas'],
         )
             
     if msg.topic == "ASLW/Ventas":
@@ -94,5 +81,5 @@ from django.http import HttpResponse
 import random
 
 def sensor1(request):
-    # data = Sensor1.objects.all().last()
-    return HttpResponse(str(random.randint(1,1000)))
+    data = sensor1mqtt.objects.all().last()
+    return HttpResponse(str(data.sensor))
